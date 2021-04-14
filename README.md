@@ -7,8 +7,8 @@ This repository contains the pipline for transcirptome wide 3'UTR splicing event
 
 
 ## Quick running 
-To run the pipline, 6 parameters are required in the correct order, including 
-1, directory, include all the bam files, *SJ.out.tab should be also in the same directory and the prefix of file name should be consistent with bam files
+To run the pipline, 6 parameters are required in the correct order, including \n
+1, directory, include all the bam files, *SJ.out.tab should be also in the same directory and the prefix of file name should be consistent with bam files \n
 2, gtf, could be downloaded from Gencode https://www.gencodegenes.org
 3, directory of output
 4, read_length, read length of the RNAseq data 
