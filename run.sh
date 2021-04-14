@@ -10,6 +10,8 @@ function usage () {
         echo Usage: bash run.sh [directory of bam] [gtf] [output directory] [RNAseq read_length] [RNAseq strand] [RNAseq reads_end]
         echo "      " directory of bam file should also include *SJ.out.tab files with identifcal prefix as bam files   
         echo "      " gtf could be downloaded from Gencode https://www.gencodegenes.org
+		echo "      " output directory
+		echo "      " read_length of RNAseq data
         echo "      " strand should be the value from 0,1,2. 0: not strand specific, 1: sense strand and 2: antisense strand 
         echo "      " read_end should be either single_end/SE or paired_end/PE 
         echo
