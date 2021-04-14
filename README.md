@@ -3,7 +3,7 @@ transcriptome-wide  profiling 3'UTR splicing events using conventional RNA seque
 
 
 ## Overview
-This repository contains the pipline for transcirptome wide 3'UTR splicing events identification from the aligned RNA-seq data (bam files). Output of splicing junctions from the alighment is also required and the current version only accepts format output from STAR (*SJ.out.tab)    
+This repository contains the pipline for transcirptome wide 3'UTR splicing events identification from the aligned RNA-seq data (bam files). Output of splicing junctions from the alighment is also required and the current version only accepts the format from STAR output (*SJ.out.tab)    
 
 
 ## Quick running 
