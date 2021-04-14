@@ -26,9 +26,9 @@ bash run.sh ${1} ${2} ${3} ${4} ${5} ${6}
 ## Output 
 The intermediate processed data and the final output are inside the output dierectory 
 
-The file 'combined.intron.filtered.utr3.bed' is the final filtered 3'UTR spliicng events
+The file 'combined.intron.filtered.utr3.bed' is the final filtered 3'UTR splicing events
 
-Splicing levels of each events were stored in 'filtered.splicing.count.Rdata', which could be load in R for the following analysis ... 
+Splicing levels of these events were stored in 'filtered.splicing.count.Rdata', which could be load in R for the following analysis ... 
 
 ## Prerequisites
 The pipline has been test with fowlloing dependencies: 
