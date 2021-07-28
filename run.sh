@@ -50,9 +50,9 @@ fi
 mv $out_dir/*.gtf $out_dir/intron/
 
 echo combining splicing events together ...
-perl ./perl/combine.events.pl $out_dir/combined.intron.left.gtf $out_dir/intron/*.left.gtf > combined.splicing.out.fromleft.txt 
-perl ./perl/combine.events.pl $out_dir/combined.intron.right.gtf $out_dir/intron/*.right.gtf > combined.splicing.out.fromright.txt
-perl ./perl/combine.events.pl $out_dir/combined.intron.gtf $out_dir/intron/*.intron.gtf > combined.splicing.out.txt
+perl ./perl/combine.events.pl $out_dir/combined.intron.left.gtf $out_dir/intron/*.left.gtf > $out_dir/combined.splicing.out.fromleft.txt
+perl ./perl/combine.events.pl $out_dir/combined.intron.right.gtf $out_dir/intron/*.right.gtf > $out_dir/combined.splicing.out.fromright.txt
+perl ./perl/combine.events.pl $out_dir/combined.intron.gtf $out_dir/intron/*.intron.gtf > $out_dir/combined.splicing.out.txt
 
 echo extracting intron from UTR3
 intersectBed -a $out_dir/combined.intron.left.gtf -b $out_dir/annotated.utr3 -f .5 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$19,$22,$29,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"transcript_type")),16,index(substr($0,index($0,"transcript_type")),";") - 16),$20":"$23"-"$24,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.left.gtf.utr3.wo
