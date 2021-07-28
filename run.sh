@@ -32,10 +32,10 @@ strandness=${5}
 readend=${6}
 
 echo processing annotation 
-perl ./perl/get.utr.from.annotation.v2.pl UTR $gtf $out_dir/annotated.utr 
+perl ./perl/get.utr.from.annotation.v2.pl UTR $gtf $out_dir/annotated.utr 1>$out_dir/extract.utr.log 2>$out_dir/extract.utr.elog
 #perl ./perl/get.utr.from.annotation.v2.pl cds $gtf $out_dir/annotation.cds
 awk '$3 == "UTR3"' $out_dir/annotated.utr > $out_dir/annotated.utr3
-awk '$3 == "UTR5"' $out_dir/annotated.utr > $out_dir/annotated.utr5 
+awk '$3 == "UTR5"' $out_dir/annotated.utr > $out_dir/annotated.utr5
 awk '$3 == "CDS"' $gtf > $out_dir/annotated.CDS
 
 echo extracting introns from bam file ...
