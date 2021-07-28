@@ -40,9 +40,13 @@ awk '$3 == "CDS"' $gtf > $out_dir/annotated.CDS
 
 echo extracting introns from bam file ...
 ./get_intron_from_STAR_output.sh $data_path $read_length $out_dir 1>$out_dir/extract.intron.log 2>$out_dir/extract.intron.elog
-if [ -f ./$out_dir/intron ]; then
+if [ -x $out_dir/intron ]; then
+    echo create directory $out_dir/intron
 	mkdir $out_dir/intron
+else
+    echo $out_dir/intron directory exists
 fi
+
 mv $out_dir/*.gtf $out_dir/intron/
 
 echo combining splicing events together ...

@@ -34,7 +34,7 @@ Splicing levels of these events were stored in 'filtered.splicing.count.Rdata', 
 The pipline has been test with fowlloing dependencies: 
 
 - bash 
-- Bedtools 
+- bedtools 
 - featureCounts 
 - samtools 
 - perl 
