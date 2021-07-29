@@ -4,8 +4,7 @@
 #2,junction within annotated coding exons
 #3,junction overlapped with 5' UTR 
 #
-###
-percut = 0.1
+### only keep the events supported by 2 junction reads at least
 juncut = 1
 ###
 argv = commandArgs(TRUE)
@@ -33,7 +32,7 @@ cat(length(unique(utr3intr[,1]))," introns left...\n")
 #@utr3intr2 = utr3intr2[utr3intr2[,1] %in% setdiff(utr3intr2[,1],utr5intr[,1]),]
 bed = read.table(paste(out_dir,"/combined.intron.utr3.bed",sep = ""))
 subbed = bed[bed[,4] %in% utr3intr[,1],]
-write.table(subbed,file = paste(out_dir,"/combined.intron.filtered.utr3.bed",sep = ""),col.names = F,row.names = F,sep = "\t",quote = F)
+write.table(subbed,file = paste(out_dir,"/out/combined.UTR3.splicing.introns.bed",sep = ""),col.names = F,row.names = F,sep = "\t",quote = F)
 rm(bed)
 ### read splicing junction counting data
 cat("reading splicng junctions counting data...\n")
@@ -53,20 +52,20 @@ colnames(sublc) = colnames(subrc) = colnames(subsout) = sampleid[,1]
 subsums = sublc + subrc + subsout * 2
 subratio = 2*subsout/(sublc + subrc + subsout * 2)
 
-fillNA = function(x){
-    subx = x
-    subx[x == -1] = NA
-    subx
-}
-
 ### more than one supporting junctions
-juncfilterd = apply(subsout2,1,sum) > juncut
+juncfilterd = apply(subsout,1,sum) > juncut
 sublc2 = sublc[juncfilterd,]
 subrc2 = subrc[juncfilterd,]
 subsout2 = subsout[juncfilterd,]
 subratio2 = subratio[juncfilterd,]
+subratio2 = round(subratio2,5)
 cat("saving data ...\n")
-save(list = c("out_dir","subsout2","utr3intr","subratio2","sublc2","subrc2"),file = paste(out_dir,"/filtered.splicing.count.Rdata",sep = ""))
+gns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],7]),collapse = ":"))
+txns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],8]),collapse = ":"))
+outmat = cbind(gns,txns,subratio2,subsout2)
+colnames(outmat) = c("GeneName","TranscriptType",paste("SplicingLevel",colnames(subratio2),sep = ":"),paste("SplicngCount",colnames(subsout2),sep = ":"))
+write.table(outmat,file = paste(out_dir,"/out/filtered.UTR3.splicing.events.tsv",sep = ""),sep = "\t",quote = F)
+save(list = c("out_dir","subsout2","utr3intr","subratio2","sublc2","subrc2"),file = paste(out_dir,"/out/filtered.UTR3.splicing.count.Rdata",sep = ""))
 
 
 

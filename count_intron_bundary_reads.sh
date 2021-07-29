@@ -15,7 +15,7 @@ for BAM in $data_path/*.bam
 do
 	echo $BAM
 	SAMPLEID=`echo $BAM |sed s/.*\\\/// | sed s/\\.bam//`
-	if [[ "readend" =~ "[Pp].*[Ee]" ]]; then
+	if [[ $readend =~ [Pp].*[Ee] ]]; then
 		echo paired end 
 		echo left SS
 	    featureCounts -a $out_dir/combined.intron.left.gtf.utr3 -o $out_dir/$SAMPLEID.intron.left $BAM -s $strandness --minOverlap $read_length -p -F GTF -t INTRON -g intron_id -T 20 -B -C -O
