@@ -50,6 +50,7 @@ rownames(subsout) = utr3sout[utr3sout[,1] %in% utr3intr[,1],1]
 sjsampleid = read.table(paste(out_dir,"/SJ.sampleID.list",sep = ""))
 #bamsampleid = read.table(paste(out_dir,"/bam.sampleID.list",sep = ""))
 colnames(sublc) = colnames(subrc) = colnames(subsout) = sjsampleid[,1]
+cat("calculating splicing levels ...\n")
 subsums = sublc + subrc + subsout * 2
 subratio = 2*subsout/(sublc + subrc + subsout * 2)
 
@@ -60,7 +61,7 @@ subrc2 = subrc[juncfilterd,]
 subsout2 = subsout[juncfilterd,]
 subratio2 = subratio[juncfilterd,]
 subratio2 = round(subratio2,5)
-cat("saving data ...\n")
+cat("saving and outputing the data ...\n")
 gns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],7]),collapse = ":"))
 txns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],8]),collapse = ":"))
 outmat = cbind(rownames(subratio2),gns,txns,subratio2,subsout2)
