@@ -47,8 +47,9 @@ rownames(sublc) = utr3lc[utr3lc[,1] %in% utr3intr[,1],1]
 rownames(subrc) = utr3rc[utr3rc[,1] %in% utr3intr[,1],1]
 rownames(subsout) = utr3sout[utr3sout[,1] %in% utr3intr[,1],1]
 
-sampleid = read.table(paste(out_dir,"/sampleID.list",sep = ""))
-colnames(sublc) = colnames(subrc) = colnames(subsout) = sampleid[,1]
+sjsampleid = read.table(paste(out_dir,"/SJ.sampleID.list",sep = ""))
+#bamsampleid = read.table(paste(out_dir,"/bam.sampleID.list",sep = ""))
+colnames(sublc) = colnames(subrc) = colnames(subsout) = sjsampleid[,1]
 subsums = sublc + subrc + subsout * 2
 subratio = 2*subsout/(sublc + subrc + subsout * 2)
 
@@ -62,7 +63,7 @@ subratio2 = round(subratio2,5)
 cat("saving data ...\n")
 gns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],7]),collapse = ":"))
 txns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],8]),collapse = ":"))
-outmat = cbind(rowname(subratio2),gns,txns,subratio2,subsout2)
+outmat = cbind(rownames(subratio2),gns,txns,subratio2,subsout2)
 colnames(outmat) = c("EventsID","GeneName","TranscriptType",paste("SplicingLevel",colnames(subratio2),sep = ":"),paste("SplicngCount",colnames(subsout2),sep = ":"),row.names = F)
 write.table(outmat,file = paste(out_dir,"/out/filtered.UTR3.splicing.events.tsv",sep = ""),sep = "\t",quote = F)
 save(list = c("out_dir","subsout2","utr3intr","subratio2","sublc2","subrc2"),file = paste(out_dir,"/out/filtered.UTR3.splicing.count.Rdata",sep = ""))
