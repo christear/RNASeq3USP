@@ -30,7 +30,7 @@ The intermediate processed data and the final output are inside the output diere
 	
 		- combined.UTR3.splicing.introns.bed, a bed format file of the detcted introns within 3'UTR
 		
-		- filtered.UTR3.splicing.events.tsv, 3'UTR splicing events supported by at least two junctions supporting the events 
+		- filtered.UTR3.splicing.events.tsv, 3'UTR splicing events supported by at least two splicing junctions  
 		
 	- the detected introns are listed in subdirectory "intron"
 	
