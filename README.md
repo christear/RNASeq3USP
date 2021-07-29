@@ -40,7 +40,7 @@ The intermediate processed data and the final output are inside the output diere
 	
 	- log files are named as "*.log" and "*.elog"  
 
-Please check the column informations of filtered.UTR3.splicing.events.tsv are shown below
+Please check the column information of filtered.UTR3.splicing.events.tsv are shown below
 
 1: 3'UTR splicing events ID, named by genomic coordinates of introns
 
