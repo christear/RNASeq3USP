@@ -9,12 +9,19 @@ out_dir=${3}
 # 0 means the data is not strand specific, 1 means sense strand and 2 means antisense strand 
 strandness=${4}
 readend=${5}
-
 echo counting $data_path 
-for BAM in $data_path/*.bam
+
+if [ -f $out_dir/bam.sampleID.list ]; then
+	rm -f $out_dir/bam.sampleID.list
+fi
+touch $out_dir/bam.sampleID.list
+
+
+for BAM in $data_path/*bam
 do
 	echo $BAM
-	SAMPLEID=`echo $BAM |sed s/.*\\\/// | sed s/\\.bam//`
+	SAMPLEID=`echo $BAM |sed s/.*\\\/// | sed s/[\\.\\_]Align.*bam/\\.bam/ | sed s/\\.bam//`
+	echo $SAMPLEID >> $out_dir/bam.sampleID.list
 	if [[ $readend =~ [Pp].*[Ee] ]]; then
 		echo paired end 
 		echo left SS
