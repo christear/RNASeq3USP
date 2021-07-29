@@ -17,7 +17,7 @@ fi
 touch $out_dir/bam.sampleID.list
 
 
-for BAM in $data_path/*bam
+for BAM in $data_path/*.bam
 do
 	echo $BAM
 	SAMPLEID=`echo $BAM |sed s/.*\\\/// | sed s/[\\.\\_]Align.*bam/\\.bam/ | sed s/\\.bam//`
