@@ -39,13 +39,15 @@ cat("reading splicng junctions counting data...\n")
 utr3sout = read.table(paste(out_dir,"/combined.splicing.out.txt",sep = ""))
 utr3lc = read.table(paste(out_dir,"/combined.intron.left.count.withspid",sep = ""))
 utr3rc = read.table(paste(out_dir,"/combined.intron.right.count.withspid",sep = ""))
-sublc = utr3lc[utr3lc[,1] %in% utr3intr[,1],2:ncol(utr3lc)]
-subrc = utr3rc[utr3rc[,1] %in% utr3intr[,1],2:ncol(utr3rc)]
-subsout = utr3sout[utr3sout[,1] %in% utr3intr[,1],2:ncol(utr3sout)]
+### shared splicing id
+oids = intersect(intersect(intersect(utr3intr[,1],utr3lc[,1]),utr3rc[,1]),utr3sout[,1])
+sublc = utr3lc[utr3lc[,1] %in% oids,2:ncol(utr3lc)]
+subrc = utr3rc[utr3rc[,1] %in% oids,2:ncol(utr3rc)]
+subsout = utr3sout[utr3sout[,1] %in% oids,2:ncol(utr3sout)]
 
-rownames(sublc) = utr3lc[utr3lc[,1] %in% utr3intr[,1],1]
-rownames(subrc) = utr3rc[utr3rc[,1] %in% utr3intr[,1],1]
-rownames(subsout) = utr3sout[utr3sout[,1] %in% utr3intr[,1],1]
+rownames(sublc) = utr3lc[utr3lc[,1] %in% oids,1]
+rownames(subrc) = utr3rc[utr3rc[,1] %in% oids,1]
+rownames(subsout) = utr3sout[utr3sout[,1] %in% oids,1]
 
 sjsampleid = read.table(paste(out_dir,"/SJ.sampleID.list",sep = ""))
 #bamsampleid = read.table(paste(out_dir,"/bam.sampleID.list",sep = ""))
