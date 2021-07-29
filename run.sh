@@ -31,6 +31,15 @@ read_length=${4}
 strandness=${5}
 readend=${6}
 
+if [ ! -d $out_dir ]; then
+	echo creating output directory: $out_dir ...
+	mkdir $out_dir
+else
+	echo $out_dir exists
+	echo cleaning output directory: $out_dir ...  
+	rm -f $out_dir/*.* 
+fi
+
 echo processing annotation ...
 perl ./perl/get.utr.from.annotation.v2.pl UTR $gtf $out_dir/annotated.utr 1>$out_dir/extract.utr.log 2>$out_dir/extract.utr.elog
 #perl ./perl/get.utr.from.annotation.v2.pl cds $gtf $out_dir/annotation.cds
@@ -41,7 +50,7 @@ awk '$3 == "CDS"' $gtf > $out_dir/annotated.CDS
 echo extracting introns from bam file ...
 rm -f *.gtf
 ./get_intron_from_STAR_output.sh $data_path $read_length $out_dir 1>$out_dir/extract.intron.log 2>$out_dir/extract.intron.elog
-if [ ! -d $out_dir/count ]; then
+if [ ! -d $out_dir/intron ]; then
     echo creating directory $out_dir/intron ...
 	mkdir $out_dir/intron
 else
@@ -85,10 +94,10 @@ paste $out_dir/count/*.intron.left |awk '$1 ~ ":"' | awk '{for(i=7;i<=NF;i+=7) {
 paste $out_dir/count/*.intron.right |awk '$1 ~ ":"' | awk '{for(i=7;i<=NF;i+=7) {printf("%s\t",$i)} printf("\n")}' > $out_dir/combined.intron.right.count
 
 ###
-#lf=`ls -l $out_dir/count/*.intron.left | head -1 |awk '{print $9}'`
-#rf=`ls -l $out_dir/count/*.intron.right | head -1 |awk '{print $9}'`
-#awk '$1 ~ ":"' $lf | cut -f 1 > $out_dir/combined.intron.left.spid
-#awk '$1 ~ ":"' $rf | cut -f 1 > $out_dir/combined.intron.right.spid
+lf=`ls -l $out_dir/count/*.intron.left | head -1 |awk '{print $9}'`
+rf=`ls -l $out_dir/count/*.intron.right | head -1 |awk '{print $9}'`
+awk '$1 ~ ":"' $lf | cut -f 1 > $out_dir/combined.intron.left.spid
+awk '$1 ~ ":"' $rf | cut -f 1 > $out_dir/combined.intron.right.spid
 #errorline=`diff $out_dir/combined.intron.left.spid $out_dir/combined.intron.right.spid | wc -l`
 #echo $errorline line are different between left and right
  
@@ -106,6 +115,12 @@ else
 	echo $out_dir/out exists 
 fi
 Rscript R/filter.splicing.events.r $out_dir
+
+if [ ! -d $out_dir/processed_data ]; then
+	mkdir $out_dir/processed_data
+fi
+
+mv $out_dir/combined.* $out_dir/processed_data
 
 # rm -f $out_dir/count
 # rm -f $out_dir/intron

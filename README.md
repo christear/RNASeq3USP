@@ -25,10 +25,20 @@ bash run.sh ${1} ${2} ${3} ${4} ${5} ${6}
 
 ## Output 
 The intermediate processed data and the final output are inside the output dierectory 
+	- final outputs including: combined.UTR3.splicing.introns.bed and filtered.UTR3.splicing.events.tsv, could be found in the subdirectory "out"
+		- combined.UTR3.splicing.introns.bed, a bed format file of the detcted introns within 3'UTR
+		- filtered.UTR3.splicing.events.tsv, 3'UTR splicing events supported by at least two junctions supporting the events 
+	- the detected introns are listed in subdirectory "intron"
+	- counting of RNA-seq reads covering exon-intron bundary could be found in the sudirectory "count"
+	- the intermediate processed data are stored in the subdirectory "processed_data"
+	- log files are named as "*.log" and "*.elog"  
 
-The file 'combined.intron.filtered.utr3.bed' is the final filtered 3'UTR splicing events
-
-Splicing levels of these events were stored in 'filtered.splicing.count.Rdata', which could be load in R for the following analysis ... 
+Please check the column informations of filtered.UTR3.splicing.events.tsv are shown below
+1: 3'UTR splicing events ID, named by genomic coordinates of introns
+2: Gene symbol of the events located 
+3: Types of the transcirpts where the 3'UTR splicing events come from 
+columns named as SplicingLevel:* indicate the splicing level of each event in each sample
+columns named as SplicingCount:* indicate the number of junctions reads supporting the splicing events in each samples    
 
 ## Prerequisites
 The pipline has been test with fowlloing dependencies: 
