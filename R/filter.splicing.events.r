@@ -65,8 +65,8 @@ cat("saving and outputing the data ...\n")
 gns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],7]),collapse = ":"))
 txns = sapply(1:nrow(subratio2),function(i) paste0(unique(utr3intr[utr3intr[,1] == rownames(subratio2)[i],8]),collapse = ":"))
 outmat = cbind(rownames(subratio2),gns,txns,subratio2,subsout2)
-colnames(outmat) = c("EventsID","GeneName","TranscriptType",paste("SplicingLevel",colnames(subratio2),sep = ":"),paste("SplicngCount",colnames(subsout2),sep = ":"),row.names = F)
-write.table(outmat,file = paste(out_dir,"/out/filtered.UTR3.splicing.events.tsv",sep = ""),sep = "\t",quote = F)
+colnames(outmat) = c("EventsID","GeneName","TranscriptType",paste("SplicingLevel",colnames(subratio2),sep = ":"),paste("SplicngCount",colnames(subsout2),sep = ":"))
+write.table(outmat,file = paste(out_dir,"/out/filtered.UTR3.splicing.events.tsv",sep = ""),sep = "\t",quote = F,row.names = F)
 save(list = c("out_dir","subsout2","utr3intr","subratio2","sublc2","subrc2"),file = paste(out_dir,"/out/filtered.UTR3.splicing.count.Rdata",sep = ""))
 
 
