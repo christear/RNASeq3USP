@@ -45,7 +45,8 @@ perl ./perl/get.utr.from.annotation.v2.pl UTR $gtf $out_dir/annotated.utr 1>$out
 #perl ./perl/get.utr.from.annotation.v2.pl cds $gtf $out_dir/annotation.cds
 awk '$3 == "UTR3"' $out_dir/annotated.utr > $out_dir/annotated.utr3
 awk '$3 == "UTR5"' $out_dir/annotated.utr > $out_dir/annotated.utr5
-awk '$3 == "CDS"' $gtf > $out_dir/annotated.CDS
+perl ./perl/get.utr.from.annotation.v2.pl cds $gtf $out_dir/annotated.CDS
+#awk '$3 == "CDS"' $gtf > $out_dir/annotated.CDS
 
 echo extracting introns from bam file ...
 rm -f *.gtf
@@ -71,7 +72,8 @@ intersectBed -a $out_dir/combined.intron.right.gtf -b $out_dir/annotated.utr3 -f
 intersectBed -a $out_dir/combined.intron.right.gtf -b $out_dir/annotated.utr3 -f .5 -s -u > $out_dir/combined.intron.right.gtf.utr3
 intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.utr3 -f 1 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$19,$22,$29,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"transcript_type")),16,index(substr($0,index($0,"transcript_type")),";") - 16),$20":"$23"-"$24,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.gtf.utr3.wo
 intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.utr3 -f 1 -s -u > $out_dir/combined.intron.gtf.utr3
-intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.CDS -f 1 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$19,$22,$29,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"exon_id")),8,index(substr($0,index($0,"exon_id")),";") - 8),$20":"$23"-"$24,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.gtf.cds.wo
+#intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.CDS -f 1 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$19,$22,$29,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"exon_id")),8,index(substr($0,index($0,"exon_id")),";") - 8),$20":"$23"-"$24,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.gtf.cds.wo
+intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.CDS -f 1 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$23,$26,$33,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"exon_id")),8,index(substr($0,index($0,"exon_id")),";") - 8),$24":"$27"-"$28,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.gtf.cds.wo
 intersectBed -a $out_dir/combined.intron.gtf -b $out_dir/annotated.utr5 -f 0.1 -s -wo | awk '{OFS="\t"} {print $10,$13,$16,$23,$26,$33,substr(substr($0,index($0,"gene_name")),10,index(substr($0,index($0,"gene_name")),";") - 10),substr(substr($0,index($0,"exon_id")),8,index(substr($0,index($0,"exon_id")),";") - 8),$24":"$27"-"$28,$7}' | sed s/[\"\;]//g | sort | uniq  > $out_dir/combined.intron.gtf.UTR5.wo
 perl perl/filter.cds.intron.pl $out_dir/combined.intron.gtf.utr3.wo $gtf $out_dir/combined.intron.gtf.utr3.wo.addcds 
 
